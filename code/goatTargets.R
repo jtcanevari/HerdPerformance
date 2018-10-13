@@ -36,7 +36,7 @@ df$detection[df$oestNumber==1] <- sample(c(0,1),ngoats, prob = c(1-det,det), rep
 df$detection[df$oestNumber==2] <- sample(c(0,1),ngoats, prob = c(1-det,det), replace=T)
 df$detection[df$oestNumber==3] <- sample(c(0,1),ngoats, prob = c(1-det,det), replace=T)
 
-#that's 'real' but what's observed? should be no records of non-observed oestrus
+#that's 'real' but what's observed?
 obs <- subset(df, detection==1) #keep only detected oestrus
 
 #simulate conceptions
@@ -51,7 +51,7 @@ obs$pregnant[obs$oestNumber==3] <- sample(c(0,1),length(obs$pregnant[obs$oestNum
 obs$day <- floor(obs$day+1) #days don't start in 0 but in 1 and are integers
 obs <- obs[with(obs, order(id, day)), ]
 
-#rmv oestrus detections after goat gets pregnant
+#rmv rows after id gets pregnant
 obs$csum <- ave(obs$pregnant, obs$id, FUN=cumsum)
 obs <- obs[obs$csum<=1,]
 obs$temp <- obs$csum+obs$pregnant  
@@ -93,7 +93,6 @@ length(obs$id[obs$day >= start & obs$day <= start  + 27 + 28 & obs$pregnant==1])
 (ngoats - length(obs$id[obs$day <= 100 & obs$pregnant == 1]))/ngoats*100 #13.4%
 
 #return intervals
-
 # 2 to 7 days
 (pnorm(7, mx, sdx) - pnorm(2, mx, sdx))*100
 
@@ -118,8 +117,7 @@ length(obs$id[obs$day >= start & obs$day <= start  + 27 + 28 & obs$pregnant==1])
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
 
-#checking method for first oestrus assigned is right
-
+#check method for first oestrus
 ngoats <- 1000
 rval<- rep(NA,ngoats)
 for(i in 1:ngoats){
