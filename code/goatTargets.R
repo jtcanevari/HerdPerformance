@@ -5,11 +5,12 @@ library(dplyr)
 
 #define parameters
 mx <- 21 #mean oestrus cylce (Castro et al 1999, mean=20.8,sem=0.4)
-sem <- 1 #standard error of the mean
+sem <- 0.4 #standard error of the mean
 sem*sqrt(6) -> sdx #standard deviation (n=6)
+sdx <- 2
 det=0.80 #detection of oestrus
 pRate <- 0.60 #conception rate
-ngoats = 10000 #number of goats to simulate
+ngoats = 100000 #number of goats to simulate
 ncycles <- 3 #how many cycles to follow
 
 #create data frame
@@ -66,7 +67,7 @@ mean(obs$diff[!obs$diff==0]) #cycle length is a bit longer than mx because of mi
 #ratio 20-26 to 43-49?
 #43-49
 obsCycles <- obs$diff[!obs$diff==0]
-hist(obsCycles)
+hist(obsCycles,30)
 
 length(obsCycles[obsCycles >= (mx-3) & obsCycles <= (mx+3)]) / length(obsCycles[obsCycles >= ((mx*2)-3) & obsCycles <= ((mx*2)+3)])
 
@@ -94,25 +95,31 @@ length(obs$id[obs$day >= start & obs$day <= start  + 27 + 28 & obs$pregnant==1])
 
 #return intervals
 # 2 to 7 days
-(pnorm(7, mx, sdx) - pnorm(2, mx, sdx))*100
+# (pnorm(7.5, mx, sdx) - pnorm(1.5, mx, sdx))*100
 
 # 8 to 10 days
-(pnorm(17, mx, sdx) - pnorm(9, mx, sdx))*100
+# (pnorm(10.5, mx, sdx) - pnorm(7.5, mx, sdx))*100
 
-# 17 to 19 days
-(pnorm(20, mx, sdx) - pnorm(17, mx, sdx))*100
+# 11 to 17 days
+(pnorm(18, mx, sdx) - pnorm(11, mx, sdx))*100
+
+# 18 to 19 days
+(pnorm(20, mx, sdx) - pnorm(18, mx, sdx))*100
 
 # 20 to 21 days 
 (pnorm(22, mx, sdx) - pnorm(20, mx, sdx))*100
 
-# 22 to 24 days
+# 22 to 23 days
 (pnorm(24, mx, sdx) - pnorm(22, mx, sdx))*100
 
-# 25 to 26 days
-(pnorm(26, mx, sdx) - pnorm(24, mx, sdx))*100
+# 24 to 30 days
+(pnorm(30, mx, sdx) - pnorm(24, mx, sdx))*100
 
-# 25 to 26 days
-(pnorm(28, mx, sdx) - pnorm(26, mx, sdx))*100
+# 39 to 45 days
+# (pnorm(90, mx, sdx) - pnorm(31.5, mx, sdx))*100
+
+# 46 to 59 days
+# (pnorm(60, mx, sdx) - pnorm(46, mx, sdx))*100
 
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
